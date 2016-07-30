@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>创建对象</title>
+	</head>		
+	
+	<body>
+		
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * 工厂模式创建对象
+	 */
+	function createPerson(name,age,job){
+		var obj = new Object();
+		obj.name = name;
+		obj.age = age;
+		obj.job = job;
+		obj.sayName = function(){
+			console.log("my name is "+this.name);
+		}
+		return obj;
+	}
+	var person1 = createPerson("张三",30,"Software Engineer");
+	person1.sayName();
+	console.log("【person1】 name:"+person1.name+", age:"+person1.age+", job:"+person1.job);
+	
+	var person2 = createPerson("李四",44,"System Analyst");
+	person2.sayName();
+	console.log("【person2】 name:"+person2.name+", age:"+person2.age+", job:"+person2.job);
+	
+	console.log(person1.constructor == Object);		//true
+	console.log(person1 instanceof Object);			//true
+	
+	/********************* 【开始】运行结果 ********************
+	my name is 张三
+	【person1】 name:张三, age:30, job:Software Engineer
+	my name is 李四
+	【person2】 name:李四, age:44, job:System Analyst
+	true
+	true
+	********************* 【结束】运行结果 ********************/	
+</script>		
+
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * 构造函数模式创建对象
+	 */
+	function Person(name,age,job){
+		this.name = name;
+		this.age = age;
+		this.job = job;
+		this.sayName = function(){
+			console.log("my name is "+this.name);
+		}
+	}
+	
+	/**
+	 * 要创建Person 的新实例，必须使用New 操作符。以这种方式调用构造函数实际上会经历以下 4 个步骤：
+	 * 1、创建一个新对象；
+	 * 2、将构造函数的作用域赋给新对象（因此this就指向了这个新对象）；
+	 * 3、执行构造函数中代码（为这个新对象添加属性）；
+	 * 4、返回新对象。
+	 */
+	var person3 = new Person("王五",35,"Software Engineer");
+	person3.sayName();
+	console.log("【person3】 name:"+person3.name+", age:"+person3.age+", job:"+person3.job);
+	
+	var person4 = new Person("赵六",46,"System Analyst");
+	person4.sayName();
+	console.log("【person4】 name:"+person4.name+", age:"+person4.age+", job:"+person4.job);
+	
+	console.log(person3.constructor == Object);		//false
+	console.log(person3.constructor == Person);		//true
+	
+	console.log(person3 instanceof Object);		//true
+	console.log(person3 instanceof Person);		//true
+	
+	/**
+	 * 使用构造函数的主要问题，就是每个方法都要在每个实例上重新创建一遍。在上面的例子中，person3 和 person4都有一个名为 sayName的方法，
+	 * 但那两个方法不是同一个Function 的实例。ECMAScript中函数是对象，因此每定义一个函数，也就实例化了一个对象。
+	 */
+	console.log(person3.sayName == person4.sayName);	//false
+	
+	/********************* 【开始】运行结果 ********************
+	my name is 王五
+	【person3】 name:王五, age:35, job:Software Engineer
+	my name is 赵六
+	【person4】 name:赵六, age:46, job:System Analyst
+	false
+	true
+	true
+	true
+	false
+	********************* 【结束】运行结果 ********************/		
+</script>	
+		
+		
+		
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * 原型模式创建对象
+	 * 		我们创建的每个函数都有一个 prototype(原型)属性，这个属性是一个指针，指向一个对象，而这个对象的用途是包含可以由
+	 * 特定类型的所有实例共享的属性和方法。使用原型对象的好处是可以让所有对象实例共享它所包含的属性和方法。换句话说，不必在构造
+	 * 函数中定义对象实例的信息，而是可以将这些信息直接添加到原型对象中，如下面的例子所示。
+	 */
+	function Person(){}
+	Person.prototype.name = "默认名称";
+	Person.prototype.age = 18;
+	Person.prototype.job = "程序猿";
+	Person.prototype.sayName = function(){
+		console.log("My name is "+this.name);
+	}
+	
+	var person5 = new Person();
+	person5.sayName();
+	
+	var person6 = new Person();
+	person6.sayName();
+	
+	console.log(person5.sayName == person6.sayName);	// true
+	
+	console.log(Person.prototype.isPrototypeOf(person5));	// true
+	console.log(Person.prototype.isPrototypeOf(person6));	// true
+	
+	// Object.getPrototypeOf(obj) 获取对象实例的原型
+	console.log(Object.getPrototypeOf(person5) == Person.prototype);	// true
+	console.log(Object.getPrototypeOf(person5).name);	// 默认名称
+	
+	// obj.hasOwnProperty("attrName");	实例对象中是否含有属性（非原型中）
+	console.log(person5.hasOwnProperty("name"));	// false
+	person5.age = 81;
+	console.log(person5.hasOwnProperty("age"));	// true
+	
+	
+	// in 操作符：通过对象访问给定属性时返回true，无论该属性存在于实例中还是原型中。
+	console.log("'age' in person5: "+("age" in person5));		// 'age' in person5: true
+	console.log("'name' in person5: "+("name" in person5));		// 'name' in person5: true
+	
+	/**
+	 * ECMAScript5的 Object.keys()方法。这个方法接受一个对象作为参数，返回一个包含所有可枚举属性的字符串数组。例如
+	 */
+	var keys = Object.keys(person5);
+	console.log("Object.keys(person5): "+keys);		//	Object.keys(person5): age
+	
+	/********************* 【开始】运行结果 ********************
+	My name is 默认名称
+	My name is 默认名称
+	true
+	true
+	true
+	true
+	默认名称
+	false
+	true
+	'age' in person5: true
+	'name' in person5: true
+	Object.keys(person5): age
+	********************* 【结束】运行结果 ********************/	
+</script>
+
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * 组合使用构造函数模式和原型模式
+	 * 		创建自定义类型的最常见方式，就是组合使用构造函数模式和原型模式。构造函数模式用户定义实例属性，而原型模式用于定义方法和共享的属性。
+	 * 结果，每个实例都会有自己的一份实例属性的副本，但同时又共享着对方法的引用，最大限度地节省了内存。另外，这种混合模式还支持向构造函数传递参数；
+	 * 
+	 */
+	function Person(name,age,job){
+		this.name = name;
+		this.age = age;
+		this.job = job;
+		this.friends = ["马云","马化腾"];
+	}
+	Person.prototype = {
+		constructor: Person,
+		sayName:function(){
+			console.log("My name is "+this.name);
+		}
+	}
+	var person5 = new Person("比尔",45,"Software Engineer");
+	var person6 = new Person("小码",18,"Programmer");
+	person5.friends.push("汤姆逊");
+	console.log("person5.friends:"+person5.friends);
+	console.log("person6.friends:"+person6.friends);
+	console.log(person5.friends == person6.friends);	//false
+	console.log(person5.sayName == person6.sayName);	//true
+	
+	/********************* 【开始】运行结果 ********************
+	person5.friends:马云,马化腾,汤姆逊
+	person6.friends:马云,马化腾
+	false
+	true
+	********************* 【结束】运行结果 ********************/	
+</script>			
+		
+	</body>
+</html>

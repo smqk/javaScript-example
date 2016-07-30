@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>获取iframe中的元素并做相应的修改</title>
+		<script type="text/javascript">
+			
+			//添加课程
+			function addCourse(name,target){
+				//获取iframe的window对象
+  				var topWin = window.document.getElementById("subPage_frame").contentWindow;
+			
+				var document = topWin.document;
+				var target = document.getElementById("courses");
+				
+				//创建一个文本节点
+				var textNode = document.createTextNode(name);
+				//创建 li 元素节点
+				var liElement = document.createElement("li");
+				// 在li元素中加入文本内容
+				liElement.appendChild(textNode);
+				
+				
+				target.appendChild(liElement);
+			}
+			
+			//移出课程
+			function removeCourse(name){
+				//获取iframe的window对象
+  				var topWin = window.document.getElementById("subPage_frame").contentWindow;
+			
+				var document = topWin.document;
+				var courses = document.getElementById("courses").childNodes;
+				
+				for(var i=0;i<courses.length;i++){
+					console.log("courses["+i+"]: "+courses[i]);
+				}
+			}
+			
+			
+		</script>
+    </head>
+    <body>
+        <h3>将使用iframe引入子元素</h3>
+		<iframe id="subPage_frame" src="subPage.htm" style="width:600px; height:400px;"></iframe>
+		
+		<input type="button" onclick="addCourse('算法')" value="子iFrame中加入'算法'课程"/>
+		<input type="button" onclick="removeCourse('算法')" value="子iFrame中移出'算法'课程"/>
+    </body>
+</html>

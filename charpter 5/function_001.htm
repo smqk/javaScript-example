@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>function example</title>
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * 	每个函数都是Function类型的实例，而且都与其他引用类型一样具有属性和方法。
+	 * 由于函数是对象，因此函数名实际上也是一个指向函数对象的指针，不会于某个函数绑定。
+	 * 函数通常是使用函数声明语法定义的，如下面的列子所示：
+	 */
+	
+	/**
+	 * @example 1：函数声明式定义函数
+	 * 
+	 * 
+	 * @param {Object} num1
+	 * @param {Object} num2
+	 */
+//	function sum(num1,num2){
+//		return num1+num2;
+//	}
+	
+	
+	/**
+	 * @example 2： 函数表达式式定义函数
+	 * 
+	 * @param {Object} num1
+	 * @param {Object} num2
+	 * @note: 代码声明了一个sum变量并将其初始化为一个函数
+	 */
+//	var sum = function(num1,num2){
+//		return num1+num2;				
+//	};
+	
+	
+	/**
+	 * @example 3：Function构造函数定义函数（不推荐使用）
+	 * 
+	 * @syntax ： var functionName = Function("参数1","参数2","参数3",...,"函数体");
+	 * @note：Function构造函数中最后一个参数是函数构造的函数体，其他的参数是函数构造的参数。
+	 * 		从技术角度讲，这是一个函数表达式。但是，我们不推荐使用这种方法定义函数，因为这种语法会导致解析两次代码
+	 * （第一次是解析常规ECMAScript代码，第二次是解析传入函数中的字符串），从而影响性能。不过，这种语法对于理解
+	 * "函数是对象，函数名是指针"的概念是很非常直观的。
+	 */
+//	var sum = Function("num1","num2","return num1+num2;");
+</script>
+	</head>
+	<body>
+		
+<script type="text/javascript" charset="utf-8">
+		//函数表达式式定义函数
+//		var start = Date.now();
+//		for(var i=0;i<10000;i++){
+//			var sum = function(num1,num2){
+//				return num1 + num2;
+//			};
+//		}
+//		var stop = Date.now();
+//		console.log("(10000次) 函数表达式式定义函数，总耗时: "+(stop-start));
+//		
+//		var start = Date.now();
+//		for(var i=0;i<100000;i++){
+//			var sum = function(num1,num2){
+//				return num1+num2;				
+//			};
+//		}
+//		var stop = Date.now();
+//		console.log("(100000次)函数表达式式定义函数，总耗时: "+(stop-start));
+//		
+//		
+//		
+//		//函数声明式定义函数
+//		var start = Date.now();
+//		for(var i=0;i<10000;i++){
+//			function sum(num1,num2){
+//				return num1+num2;
+//			}
+//		}
+//		var stop = Date.now();
+//		console.log("(10000次) 函数声明式定义函数，总耗时: "+(stop-start));
+//		
+//		var start = Date.now();
+//		for(var i=0;i<100000;i++){
+//			function sum(num1,num2){
+//				return num1+num2;
+//			}
+//		}
+//		var stop = Date.now();
+//		console.log("(100000次)函数声明式定义函数，总耗时: "+(stop-start));
+//		
+//
+//
+//		//Function构造函数定义函数
+//		var start = Date.now();
+//		for(var i=0;i<100;i++){
+//			var sum = Function("num1","num2","return num1+num2;");
+//		}
+//		var stop = Date.now();
+//		console.log("(100次) Function构造函数定义函数，总耗时: "+(stop-start));
+//		
+//		var start = Date.now();
+//		for(var i=0;i<1000;i++){
+//			var sum = Function("num1","num2","return num1+num2;");
+//		}
+//		var stop = Date.now();
+//		console.log("(1000次)Function构造函数定义函数，总耗时: "+(stop-start));
+		
+		/********************* 【开始】运行结果 ********************
+		(10000次) 函数表达式式定义函数，总耗时: 6
+		(100000次)函数表达式式定义函数，总耗时: 47
+		
+		(10000次) 函数声明式定义函数，总耗时: 12
+		(100000次)函数声明式定义函数，总耗时: 113
+		
+		(100次) Function构造函数定义函数，总耗时: 611
+		(1000次)Function构造函数定义函数，总耗时: 5095
+		********************* 【结束】运行结果 ********************/
+</script>
+		
+		
+		
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * 解析器在向执行环境中加载数据时，对函数声明和函数表达式并非一视同仁。
+	 * 解析器会率先读取函数声明，并使其在执行任何代码之前可用（可以访问）；
+	 * 至于函数表达式，则必须等到解析器执行到它所在的代码行，才会真正被解析器执行。
+	 * 
+	 * 例子如下：
+	 * 例子分析：受执行顺序的影响，（函数是对象，函数名是指针）getName被后执行的表达式式定义的函数覆盖
+	 */
+	var getName = function(){
+		return "李四";
+	};
+	console.log(getName());
+	
+	function getName(){
+		return "张三";
+	}
+	console.log(getName());
+	
+	/********************* 【开始】运行结果 ********************
+	李四
+	李四
+	********************* 【结束】运行结果 ********************/	
+</script>		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</body>
+</html>

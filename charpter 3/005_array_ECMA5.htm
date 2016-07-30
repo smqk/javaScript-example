@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>ECMA5 数组新特性</title>
+		<script type="text/javascript" charset="utf-8">
+			/**
+			 * indexOf(arg):返回指定参数在数组中的索引位置（从前往后查，比较是使用 ‘===’，查询到立即返回索引位置），如果没有则返回 -1
+			 * 
+			 * lastIndexOf(arg):从后往前查arg,如果查询到则立即返回对应的索引值，如果没有则返回 -1
+			 * 
+			 * 注：数组的索引位置都是从 0 开始索引
+			 */
+        	var arr=[1,734,23,7,90,4,true,12,1,0,23];
+			console.log("【arr】: "+arr);
+			console.log("【arr.indexOf(23)】："+arr.indexOf(23));
+			console.log("【arr.indexOf(true)】："+arr.indexOf(true));
+			
+			var arr=[1,2,3,4,5,4,3,2,1];
+			console.log("【arr】: "+arr);
+			console.log("【arr.lastIndexOf(3)】： "+arr.lastIndexOf(3));
+			console.log("【arr.lastIndexOf(10)】: "+arr.lastIndexOf(10));
+			/********************* 【开始】运行结果 ********************
+			【arr】: 1,734,23,7,90,4,true,12,1,0,23
+			【arr.indexOf(23)】：2
+			【arr】: 1,2,3,4,5,4,3,2,1
+			【arr.lastIndexOf(3)】： 6
+			【arr.lastIndexOf(10)】: -1			
+			********************* 【结束】运行结果 ********************/
+		</script>
+		
+		<script type="text/javascript" charset="utf-8">	
+			/**
+			 * 数组五个新的迭代方法（ECMA5 数组新特性）：every、filter、some、reduce、reduceRight
+			 * every:循环迭代并回调every参数中函数，循环迭代函数处理的结果如果都为true则返回true，否则返回false（类似于逻辑关系&&）
+			 * 
+			 * @return boolean
+			 */
+			var arr=[87,12,9,5,34,5,0];
+			var result=arr.every(function(item,index,arr){
+				// item:循环迭代到的值
+				// index:循环迭代到的索引位置
+				// arr:循环的数组
+				console.log("item: "+item+" ,index: "+index+", arr: "+arr);
+				return item>3;
+			});
+			console.log("arr: "+arr);		
+			console.log("arr.every(): "+result);	
+			/********************* 【开始】运行结果 ********************
+			item: 87 ,index: 0, arr: 87,12,9,5,34,5,0
+			item: 12 ,index: 1, arr: 87,12,9,5,34,5,0
+			item: 9 ,index: 2, arr: 87,12,9,5,34,5,0
+			item: 5 ,index: 3, arr: 87,12,9,5,34,5,0
+			item: 34 ,index: 4, arr: 87,12,9,5,34,5,0
+			item: 5 ,index: 5, arr: 87,12,9,5,34,5,0
+			item: 0 ,index: 6, arr: 87,12,9,5,34,5,0
+			arr: 87,12,9,5,34,5,0
+			arr.every(): false
+			********************* 【结束】运行结果 ********************/
+		</script>
+		
+		
+		<script type="text/javascript" charset="utf-8">				
+			/**
+			 * filter:循环迭代数组中符合条件的数据(返回符合筛选条件的元素，不影响被操作的对象)
+			 * 
+			 * @return [符合筛选条件的元素，符合筛选条件的元素、、、]
+			 */
+			var arr=[87,12,9,5,34,5,0];
+			var result=arr.filter(function(item,index,arr){
+				return item>10;
+			});
+			console.log("arr: "+arr);
+			console.log("arr.filter(): "+result);
+			/********************* 【开始】运行结果 ********************
+			arr: 87,12,9,5,34,5,0
+			arr.filter(): 87,12,34
+			********************* 【结束】运行结果 ********************/
+		</script>
+		
+		
+		<script type="text/javascript" charset="utf-8">				
+			/**
+			 * some:循环迭代并运行函数中的回调函数，若回调参函数运行结果含义true则返回true，否则返回false（类似于逻辑关系 || ）
+			 * 
+			 * @return boolean
+			 */
+			var arr=[87,12,9,5,34,5,0];
+			var result=arr.some(function(item,index,arr){
+				return item<3;
+			});
+			console.log("arr: "+arr);
+			console.log("arr.some(): "+result);
+			/********************* 【开始】运行结果 ********************
+			arr: 87,12,9,5,34,5,0
+			arr.some(): true
+			********************* 【结束】运行结果 ********************/			
+		</script>
+		
+		
+		
+		
+		<script type="text/javascript" charset="utf-8">		        
+			/**
+			 * reduce: 从左往右顺序迭代（默认从索引1位置开始顺序迭代）
+			 * 
+			 * @param {Object} pre	上一次循环迭代的返回值
+			 * @param {Object} cur 	循环迭代当前的值（默认从索引1位置开始顺序迭代）
+			 * @param {Object} index 循环迭代处的索引位置
+			 * @param {Object} array 循环迭代的对象
+			 */
+			var arr=[87,12,9,5,34,5,0];
+			var result=arr.reduce(function(pre,cur,index,array){
+				console.log("index:"+index+" , pre:"+pre+" , cur:"+cur+" , array:"+array);
+				return pre+cur;
+			});
+			console.log("result: "+result);
+			/********************* 【开始】运行结果 ********************
+			index:1 , pre:87 , cur:12 , array:87,12,9,5,34,5,0
+			index:2 , pre:99 , cur:9 , array:87,12,9,5,34,5,0
+			index:3 , pre:108 , cur:5 , array:87,12,9,5,34,5,0
+			index:4 , pre:113 , cur:34 , array:87,12,9,5,34,5,0
+			index:5 , pre:147 , cur:5 , array:87,12,9,5,34,5,0
+			index:6 , pre:152 , cur:0 , array:87,12,9,5,34,5,0
+			result: 152
+			********************* 【结束】运行结果 ********************/		
+		</script>
+		
+		
+		
+		
+		<script type="text/javascript" charset="utf-8">				
+			/**
+			 * reduceRight: 从右往左顺序迭代（默认从数组倒数第二个元素位置开始从右往左顺序迭代）
+			 * 
+			 * @param {Object} pre		上一次循环迭代的返回值
+			 * @param {Object} cur		循环迭代当前的值（默认从数组倒数第二个元素位置开始从右往左顺序迭代）
+			 * @param {Object} index	循环迭代处的索引位置
+			 * @param {Object} array	循环迭代的对象
+			 */		
+			var arr=[87,12,9,5,34,5,0];	
+			var result=arr.reduceRight(function(pre,cur,index,array){
+				console.log("index:"+index+" , pre:"+pre+" , cur:"+cur+" , array:"+array);
+				return pre+cur;
+			});
+			console.log("result: "+result);
+			/********************* 【开始】运行结果 ********************
+			index:5 , pre:0 , cur:5 , array:87,12,9,5,34,5,0
+			index:4 , pre:5 , cur:34 , array:87,12,9,5,34,5,0
+			index:3 , pre:39 , cur:5 , array:87,12,9,5,34,5,0
+			index:2 , pre:44 , cur:9 , array:87,12,9,5,34,5,0
+			index:1 , pre:53 , cur:12 , array:87,12,9,5,34,5,0
+			index:0 , pre:65 , cur:87 , array:87,12,9,5,34,5,0
+			result: 152
+			********************* 【结束】运行结果 ********************/					
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

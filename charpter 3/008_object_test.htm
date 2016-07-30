@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>Array Test</title>
+        <script type="text/javascript" charset="utf-8">
+			// js对象特性：在js对象中key是永远不重复的
+			function toObject(array){
+				var obj={};
+				for(var index in array){
+					obj[array[index]]=true;
+				}
+				return obj;
+			}
+			
+			
+			function keys(obj){
+				var arr=[];	//私有对象
+				for(var attr in obj){
+					if(obj.hasOwnProperty(attr)){	//查看attr属性是否是Obj实例对象的属性
+						arr.push(attr);
+					}else{
+						console.log(arr+" ,不是当前实例对象的属性！");
+					}
+				}
+				return arr;
+			}
+
+			
+			var arr=[2,4,2,6,7,2,5,9,90,5];
+			function uniq(arr){
+				return keys(toObject(arr))
+			}
+			console.log(uniq(arr));
+			/********************* 【开始】运行结果 ********************
+			["2", "4", "5", "6", "7", "9", "90"]
+			********************* 【结束】运行结果 ********************/				
+			
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

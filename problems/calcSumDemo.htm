@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>计算求和</title>
+		<script>
+			
+			/**
+			 * 求和方法
+			 */
+			function sum(){
+				//语文成绩
+				var chinese=document.getElementById("text1").value-0;
+				
+				//数学成绩
+				var math=document.getElementById("text2").value-0;
+				
+				//英语成绩
+				var english=document.getElementById("text3").value-0;
+				
+//				console.log("chinese:"+chinese);
+//				console.log("math:"+math);
+//				console.log("english:"+english);
+
+				//总分
+				var count = chinese+math+english;
+				document.getElementById("count").value = count;
+			}
+		</script>
+		
+	</head>
+	<body>
+		<form >
+			<label for="chinese">语文：</label>
+			<input type="text" name="chinese" id="text1" onchange="sum()" />
+			
+			<label for="math">数学：</label>
+			<input type="text" name="math" id="text2" onchange="sum()" />
+			
+			<label for="english">英语：</label>
+			<input type="text" name="english" id="text3" onchange="sum()" />
+			
+			<label for="count">总分：</label>
+			<input type="text" disabled="true" id="count" />
+		</form>
+	</body>
+</html>

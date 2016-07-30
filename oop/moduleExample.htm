@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>模块化</title>
+	</head>		
+	
+	<body>
+			
+			
+<script type="text/javascript" charset="utf-8">
+
+	//方式一
+	var moduleA;
+	moduleA = function(){
+		var prop = 1;
+		function func(){};
+		return{
+			func:func,
+			prop:prop
+		}
+	}();
+	
+	//方式二
+	var moduleB;
+	moduleB = new function(){
+		var prop = 1;
+		function func(){};
+		this.prop = prop;
+		this.func = func;
+	};
+</script>		
+
+		
+	</body>
+</html>

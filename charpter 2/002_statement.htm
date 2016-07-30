@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>== 和 ===</title>
+		<script>
+			/**
+			 * == 表示可以经过自动转换，比较的是数值
+			 */
+			//example01
+			if(1 == true && false =='0' && true == '1'){
+				console.log('1==true');
+				console.log(" '==' 比较的是等号两边数据的值是否相等（可以经过自动转换）.");
+			}
+			
+			//example02
+			if([1,2,3] == new Array(1,2,3)){
+				console.log('[1,2,3] == new Array(1,2,3)');
+			}else{
+				console.log("[1,2,3] != new Array(1,2,3)");
+				console.log("‘==’ 比较对象类型的数值时比较的是引用的地址是否相等。");
+			}
+			
+			
+			/**
+			 * === 表示无条件等于，既要数据值相同同时也要类型相同
+			 */ 
+			if(1 === true){
+				console.log('1===true');
+			}else{
+				console.log('1 !=== true');
+				console.log("【注意】：'===' 表示无条件等于，既要数据值相同同时也要类型相同 ");
+			}
+			/********************** 运行结果：***************
+			1==true
+			'==' 比较的是等号两边数据的值是否相等（可以经过自动转换）.
+			
+			[1,2,3] != new Array(1,2,3)
+			‘==’ 比较对象类型的数值时比较的是引用的地址是否相等。
+			
+			'1 !=== true'
+			【注意】：'===' 表示无条件等于，既要数据值相同同时也要类型相同
+			 ****************************************/
+		</script>
+			
+			
+			
+			
+			
+		<script>	
+			/**
+			 * 常见元素的真假值：
+			 * 
+			 * 1、if为假：null、0、'0'、undefined、false、''
+			 * 2、if为真：[]、{}、'0'、'null'
+			 * 
+			 * 注意：字符串除了空字符串其他字符串if判断时都为 true
+			 */
+			if(null || 0 || undefined || false || ''){
+				console.log('has true.');
+			}else{
+				console.log("【false】: null、0、undefined、false、''.");
+			}
+			
+
+			if({} && [] && '0'){
+				console.log("【true】: {},[],'0'.");
+			}
+			/********************** 运行结果：***************
+			【false】: null、0、undefined、false、''.
+			【true】: {},[],'0'.	
+			****************************************/
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

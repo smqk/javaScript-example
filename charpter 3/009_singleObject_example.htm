@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>Global对象</title>
+        <script type="text/javascript" charset="utf-8">
+			//全局对象： Object、Array、Math等
+			
+			/**
+			 * 全局的方法：
+			 * 1.encodeURI、escape、decodeURIComponet		编码
+			 * 2.decodeURI、unescape、encodeURIComponet		解码
+			 * 3.parseInt、parseFloat、isNaN、isFinite
+			 * 4.eval		计算 JavaScript 字符串，并把它作为脚本代码来执行。
+			 * 5.Number、String
+			 * 
+			 * 
+			 * 全局属性：
+			 * 1.Infinity	代表正的无穷大的数值。
+			 * 2.java		代表 java.* 包层级的一个 JavaPackage。
+			 * 3.NaN		指示某个值是不是数字值。
+			 * 4.Packages	根 JavaPackage 对象。
+			 * 5.undefined	指示未定义的值。
+			 * 
+			 */
+				
+			/**
+			 * 转码：encodeURI、encodeURIComponet
+			 * 解码：decodeURI、decodeURIComponent
+			 * 
+			 * encodeURI：只转义一些非标准的特殊字符
+			 * encodeURIComponet（常用）：转义特殊的符号
+			 */
+			var uri ="http://www.smqk.org ?type=1&user_name=张三￥#@";
+			var str1 = encodeURI(uri);
+			var str2 = encodeURIComponent(uri);
+			console.log("【uri】:"+uri);
+			console.log("【encodeURI(uri)】："+str1);
+			console.log("【encodeURIComponent(uri)】："+str2);
+			console.log("【decodeURI(str1)】："+decodeURI(str1));
+			console.log("【decodeURIComponet(str2)】："+decodeURIComponent(str2));
+			
+			/********************* 【开始】运行结果 ********************
+			【uri】:http://www.smqk.org ?type=1&user_name=张三￥#@
+			【encodeURI(uri)】：http://www.smqk.org%20?type=1&user_name=%E5%BC%A0%E4%B8%89%EF%BF%A5#@
+			【encodeURIComponent(uri)】：http%3A%2F%2Fwww.smqk.org%20%3Ftype%3D1%26user_name%3D%E5%BC%A0%E4%B8%89%EF%BF%A5%23%40
+			【decodeURI(str1)】：http://www.smqk.org ?type=1&user_name=张三￥#@
+			【decodeURIComponet(str2)】：http://www.smqk.org ?type=1&user_name=张三￥#@
+			********************* 【结束】运行结果 ********************/	
+		</script>
+		
+		<script type="text/javascript" charset="utf-8">				
+			
+			/**
+			 * eval(string) :解析执行参数脚本（ 无形的javascript 解析器）
+			 */
+			//@eval example 1:执行字符串类型的语句
+			var statement ="var a = 10; var b = 20;";
+			var returnVal = eval(statement);
+			console.log(a+b);
+			console.log("returnVal:"+returnVal);
+			
+			//@eval example 2：执行字符串类型的对象
+			var objString = "{age:20,name:'zs',sex:'女'}";
+			var obj = eval("("+objString+")");
+			console.log("eval[objString]: "+obj.name+" , "+obj.age+" , "+obj.sex);
+			
+			//@eval example 3：执行字符串类型的数组
+			var arrString = "['123',456,new Date(),false]";
+			var arr = eval(arrString);
+			console.log("eval[arrString]: "+arr);
+			
+			/********************* 【开始】运行结果 ********************
+			 30
+			returnVal:undefined
+			eval[objString]: zs , 20 , 女
+			eval[arrString]: 123,456,Thu Oct 29 2015 23:31:49 GMT+0800,false
+			********************* 【结束】运行结果 ********************/				
+		</script>
+		
+		<script type="text/javascript" charset="utf-8">					
+			
+			/**
+			 * escape、unescape
+			 */
+			var str =  "什码情况-abc-0123-ABC";
+			var str1 = escape(str);
+			console.log("str:"+str);			
+			console.log("escape(str):"+str1);			
+			console.log("unescape(str1):"+unescape(str1));		
+			
+			
+			if(NaN == NaN){
+				console.log("NaN == NaN.");
+			}else{
+				console.log("注意：NaN != NaN.");
+			}
+			/********************* 【开始】运行结果 ********************
+			str:什码情况-abc-0123-ABC
+			escape(str):%u4EC0%u7801%u60C5%u51B5-abc-0123-ABC
+			unescape(str1):什码情况-abc-0123-ABC
+			注意：NaN != NaN.
+			********************* 【结束】运行结果 ********************/				
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

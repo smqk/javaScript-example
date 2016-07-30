@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Objct Test</title>
+        <script type="text/javascript" charset="utf-8">
+			function Map(){
+				//空的对象容器，承载键值对
+				//注意对象要使用{}来声明,否则报语法错误
+				var obj={};	
+				this.size=function(){
+					var count=0;
+					for(var item in obj){
+						count++;
+					}
+					return count;
+				};
+				this.put=function(key,value){
+					obj[key]=value;
+				}
+				this.get=function(key){
+					return obj[key];
+				}
+				this.remove=function(key){
+					delete obj[key];
+				}
+				this.eachMap=function(fu){
+					for(var key in obj){
+						fu(key,obj[key]);
+					}
+				}
+			}
+			
+			var m=new Map();
+			m.put('01','abc');
+			m.put('02',true);
+			m.put('03',123);
+			m.put('04',456);
+			m.put('05',false);
+			m.put('06',null);
+			m.put('07',0);
+			m.put('08',undefined);
+			
+			console.log("m.size(): "+m.size());
+			console.log("m.get('03'): "+m.get('03'));
+			console.log("m.remove('03'): "+m.remove('03'));
+			console.log("m.get('03'): "+m.get('03'));
+			console.log("m.get('06'): "+m.get('06'));
+			console.log("m.get('08'): "+m.get('08'));
+			m.eachMap(function(key,value){
+				console.log("eachMap: "+key+" , "+value);
+			});
+			
+			/********************* 【开始】运行结果 ********************
+			m.size(): 8
+			m.get('03'): 123
+			m.remove('03'): undefined
+			m.get('03'): undefined
+			m.get('06'): null
+			m.get('08'): undefined
+			eachMap: 01 , abc
+			eachMap: 02 , true
+			eachMap: 04 , 456
+			eachMap: 05 , false
+			eachMap: 06 , null
+			eachMap: 07 , 0
+			eachMap: 08 , undefined			 
+			********************* 【结束】运行结果 ********************/			
+		</script>
+    </head>
+    <body>
+    </body>
+</html>

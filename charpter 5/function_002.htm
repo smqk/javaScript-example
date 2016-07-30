@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>function example</title>
+	</head>		
+	
+	<body>
+		
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * arguments 它是一个类似数组对象，包含着传入函数中的所有参数。
+	 */
+	function sum(){
+		var total = 0;
+		for(var i=0;i<arguments.length;i++){
+			total+=arguments[i];
+		}
+		return total;
+	}
+	console.log("sum(1): "+sum(1));
+	console.log("sum(1,2): "+sum(1,2));
+	console.log("sum(1,2,3): "+sum(1,2,3));
+	console.log("sum(1,2,3,4): "+sum(1,2,3,4));
+	/********************* 【开始】运行结果 ********************
+	sum(1): 1
+	sum(1,2): 3
+	sum(1,2,3): 6
+	sum(1,2,3,4): 10
+	********************* 【结束】运行结果 ********************/	
+</script>		
+
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * 定义阶乘函数
+	 * @param {Object} num
+	 * 
+	 * @note: 下面定义阶乘的函数例子中，函数名字与函数执行体存在紧密的耦合
+	 * 在一起，因此想用其他的函数名时则需要修改函数体代码。JavaScript提供
+	 * 了一种方式消除这种紧密耦合现象，就是使用 arguments.callee
+	 */
+	function factorial(num){
+		if(num <= 1){
+			return 1;
+		}else{
+			return num*factorial(num-1);
+		}
+	}
+	console.log("factorial(5): "+factorial(5));
+	
+	
+	/**
+	 * 定义阶乘函数（函数名与代码体无耦合关系）
+	 * arguments.callee: arguments的属性，保存着arguments的所属函数的引用，即 arguments.callee 等价于 arguments对象所属函数。
+	 * @param {Object} num
+	 */
+	function factorial1(num){
+		if(num <= 1){
+			return 1;
+		}else{
+			return num * arguments.callee(num-1);
+		}
+	}
+	console.log("factorial1(5): "+factorial1(5));
+	/********************* 【开始】运行结果 ********************
+	factorial(5): 120
+	factorial1(5): 120
+	********************* 【结束】运行结果 ********************/	
+	
+	
+	
+	/**
+	 * 函数共有的属性和方法：
+	 * 属性：
+	 * 		1、length：值为函数希望接受的参数的个数；
+	 * 		2、caller：保存着调用当前函数的函数的引用；
+	 * 		3、prototype：每个函数都有一个prototype属性，这个属性是指向一个对象的引用，这个对象称为原型对象，
+	 * 			原型对象包含函数实例共享的方法和属性，也就是说将函数用作构造函数调用（使用new操作符调用）的时候，
+	 * 			新创建的对象会从原型对象上继承属性和方法。在ECMAScript 5 中，prototype 属性是不可枚举的。
+	 * 方法：
+	 * 		1、apply(socpe,argyArray):在特定的作用域中调用函数，实际上等于设置函数体内this对象的值。
+	 * 			第一个参数（scope）表示运行函数的作用域，第二个参数是一个Array实例，也可以是arguments对象（函数调用时的参数）。
+	 * 		2、call(scope,arg1,arg2,arg3....):在特定的作用域中调用函数，实际上等于设置函数体内this对象的值。
+	 * 			第一个参数（scope）表示运行函数的作用域，后面的参数都是函数调用时的参数。
+	 */
+	
+	/*
+	  函数共有的属性和方法：
+	  属性：
+	  		1、length：值为函数希望接受的参数的个数；
+	  		2、caller：保存着调用当前函数的函数的引用；
+	  		3、prototype：每个函数都有一个prototype属性，这个属性是指向一个对象的引用，这个对象称为原型对象，
+	  			原型对象包含函数实例共享的方法和属性，也就是说将函数用作构造函数调用（使用new操作符调用）的时候，
+	  			新创建的对象会从原型对象上继承属性和方法。在ECMAScript 5 中，prototype 属性是不可枚举的。
+	  方法：
+	  		1、apply(socpe,argyArray):在特定的作用域中调用函数，实际上等于设置函数体内this对象的值。
+	  			第一个参数（scope）表示运行函数的作用域，第二个参数是一个Array实例，也可以是arguments对象（函数调用时的参数）。
+	  		2、call(scope,arg1,arg2,arg3....):在特定的作用域中调用函数，实际上等于设置函数体内this对象的值。
+	  			第一个参数（scope）表示运行函数的作用域，后面的参数都是函数调用时的参数。
+	  		*/
+</script>	
+		
+		
+		
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * function 中this指向的是函数的调用者，即谁调用了函数this就代表谁；
+	 */
+	window.name = "我乃是window";
+	var zhangsan = {name:"我乃是张三"};
+	var lisi = {name:"我是李四"};
+	function getName(){
+		return this.name;
+	}
+	console.log(getName.call(this));
+	console.log(getName.call(window));
+	console.log(getName.call(zhangsan));
+	console.log(getName.call(lisi));
+	/********************* 【开始】运行结果 ********************
+	我乃是window
+	我乃是window
+	我乃是张三
+	我是李四
+	********************* 【结束】运行结果 ********************/	
+</script>		
+		
+	</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Object</title>
+		
+		<script type="application/javascript" charset="utf-8">
+			//Objcet 所有类的基础类
+			/**
+			 * 创建对象方式一
+			 */
+//			var obj=new Objcet();
+			
+			/*
+			 * 创建对象方式二,注意 '{}'不可忘记写
+			 * 
+			 */
+			var obj = {};
+			obj.name = "什码情况";
+			obj.age = 20;
+			obj.sex = "男";
+			obj.introduction = "我是IT男！！！";
+			obj.say = function(){
+				console.log("哈喽，程序猿真好！");
+			}
+			obj.eat =  function(){
+				console.log("吃饭中。。。。");
+			}
+			
+			console.log("我叫："+obj.name);
+			obj.say();
+			
+			
+			/**
+			 * delete ：该操作符用于删除对象的属性或方法
+			 */
+			console.log("删除前obj.age: "+obj.age);
+			delete obj.age;
+			console.log("删除后obj.age： "+obj.age);
+			
+			console.log("删除前obj.eat: "+obj.eat);
+			delete obj.eat;
+			console.log("删除后obj.eat： "+obj.eat);
+			
+			
+			
+			/**
+			 * for ... in 遍历对象的属性
+			 */
+			console.log("for..in 开始遍历对象...");
+			for(var attr in obj){
+				console.log("obj["+attr+"] : "+obj[attr]);
+			}
+			console.log("for..in 结束遍历对象...");
+			
+			
+			/**
+			 * constructor: 保存对象的创建函数
+			 * hasOwnProperty(PropertyName):检测给定的属性在当前实例对象中（而不是原形中）是否存在
+			 * isPrototypeOf(Object):检测原型
+			 * propertyIsEnumerable(propertyName):检查对象的propertyName属性是否能被枚举（即可以使用：for..in..遍历）
+			 * toLocaleString():返回对象的字符串表示。该字符串与执行环境的地区对应。
+			 * toString():返回对象的字符串表示。
+			 * valueOf():返回对象的字符串、数值或布尔表示。
+			 */
+			console.log("obj.constructor: "+obj.constructor);
+			console.log("obj.hasOwnProperty('age'): "+obj.hasOwnProperty("age"));
+			console.log("obj.hasOwnProperty('sex'): "+obj.hasOwnProperty("sex"));
+			console.log("obj.propertyIsEnumerable('sex'): "+obj.propertyIsEnumerable("sex"));
+			console.log("obj.valueOf(): "+obj.valueOf());
+			
+			/********************* 【开始】运行结果 ********************
+			我叫：我叫：什码情况
+			哈喽，程序猿真好！
+			删除前obj.age: 20
+			删除后obj.age： undefined
+			删除前obj.eat: function (){
+							console.log("吃饭中。。。。");
+						}
+			删除后obj.eat： undefined
+			for..in 开始遍历对象...
+			obj[name] : 什码情况
+			obj[sex] : 男
+			obj[introduction] : 我是IT男！！！
+			obj[say] : function (){
+							console.log("哈喽，程序猿真好！");
+						}
+			for..in 结束遍历对象...
+			obj.constructor: function Object() {
+			    [native code]
+			}
+			obj.hasOwnProperty('age'): false
+			obj.hasOwnProperty('sex'): true
+			obj.propertyIsEnumerable('sex'): true
+			obj.valueOf(): [object Object]
+			********************* 【结束】运行结果 ********************/
+		</script>
+	</head>
+	<body>
+	</body>
+</html>

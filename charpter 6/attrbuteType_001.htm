@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>属性类型</title>
+	</head>		
+	
+	<body>
+		
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * ECMAScript 中有两种属性：数据属性和访问器属性。
+	 * 
+	 * 要修改属性默认的特性，必须使用ECMAScript5的Object.defineProperty()方法。
+	 * 语法：Object.defineProperty(属性所在的对象,属性名字,描述符对象);
+	 * 注意：描述符对象的属性必须是：configurable、enumerable、writable 和 value 。
+	 * 
+	 * 描述符对象属性：
+	 * 		configurable：[true|false]表示能否通过delete删除属性从而重新定义属性，能否修改属性的特性，或者能否把属性修改为访问器属性。
+	 * 		enumerable:[true|false]表示能否通过 for-in 循环返回属性。
+	 * 		writable:[true|false]表示能否修改属性的值。
+	 * 		value:包含这个属性的数据值，读取属性值得时候，从这个位置读；写入属性值得时候，把新值保存在这个位置。这个特性的默认值为undefined。
+	 */
+	var person = {};
+	//定义属性特性
+	Object.defineProperty(person,"name",{
+		writable:false,	//不可写
+		value:"张三"		//属性的值为"张三"
+	});
+	console.log(person.name);	
+	person.name = "李四";
+	console.log("新赋值后："+person.name);
+	
+	/********************* 【开始】运行结果 ********************
+	张三
+	新赋值后：张三
+	********************* 【结束】运行结果 ********************/	
+</script>		
+
+<script type="text/javascript" charset="utf-8">
+	var person1 = {};
+	//定义属性特性
+	//注： 一旦把属性定义为不可配置，就不能再把它变回可配置了，此时，再调用 Object.defineProperty() 方法修改除 writable 之外的特性，都会导致错误。
+	Object.defineProperty(person1,"name",{
+		configurable:false,	//不能从对象中删除属性
+		value:"张三1"		//属性的值为"张三1"
+	});
+	console.log(person1.name);	
+	delete person.name;
+	console.log("删除属性后："+person1.name);
+	
+	//从定义属性特性（运行时报错）
+	Object.defineProperty(person1,"name",{
+		configurable:true,	//可以从对象中删除属性
+		value:"张三2"		//属性的值为"张三2"
+	});
+	console.log("从定义属性特性后："+person1.name);
+	
+	/********************* 【开始】运行结果 ********************
+	张三1
+	删除属性后：张三1
+	TypeError: can't redefine non-configurable property "name"
+	Object.defineProperty(person1,"name",{
+	********************* 【结束】运行结果 ********************/		
+</script>	
+		
+		
+		
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * 访问器属性
+	 */
+	var book = {
+		_year:2004,
+		edition:1
+	};
+	
+	//定义访问器属性
+	/**
+	 * 访问器属性有如下4个特性。
+	 * configurable：[true|false]表示能否通过delete删除属性从而重新定义属性，能否修改属性的特性，或者能否把属性修改为数据属性。
+	 * enumerable:[true|false]表示能否通过 for-in 循环返回属性。
+	 * get:在读取属性是调用的函数，默认值为 undefined。
+	 * set:在写入属性是调用的函数，默认值为 undefined。
+	 * 
+	 */
+	Object.defineProperty(book,"year",{
+		get:function(){
+			return this._year;
+		},
+		set:function(val){
+			if(val > 2000){
+				this._year = val;
+				this.edition = val - 2000;
+			}
+		}
+	});
+	
+	book.year = 2005;
+	console.log(book);
+	console.log(book.year);
+	console.log(book.edition);
+	
+	/********************* 【开始】运行结果 ********************
+	Object { _year=2005,  edition=5}
+	2005
+	5
+	********************* 【结束】运行结果 ********************/	
+</script>
+
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * 定义多个属性Object.defineProperties()方法。
+	 * 语法：Object.defineProperties(添加和修改其属性的对象,对象的属性);
+	 */
+	var book1 = {};
+	Object.defineProperties(book1,{
+		//数据属性
+		_year:{
+			writable:true,	// 不写的话默认为 false
+			value:2000
+		},
+		//数据属性
+		edition:{
+			writable:true,
+			value:0
+		},
+		//访问器属性
+		year:{
+			get:function(){
+				return this._year;
+			},
+			set:function(newVal){
+				if(newVal > this._year){
+					this.edition += (newVal - this._year)*2;
+					this._year = newVal;
+				}
+			}
+		}
+	});
+	
+	book1.year = 2005;
+	console.log("year:"+book1.year+",edition:"+book1.edition);
+	book1.year = 2007;
+	console.log("year:"+book1.year+",edition:"+book1.edition);
+	
+	//读取属性的特性
+	var descriptor = Object.getOwnPropertyDescriptor(book1,"_year");
+	console.log(descriptor.value);			//2007
+	console.log(descriptor.configurable);	//false
+	console.log(typeof(descriptor.get));	//undefined
+	
+	var descriptor = Object.getOwnPropertyDescriptor(book1,"year");
+	console.log(descriptor.value);			//undefined
+	console.log(descriptor.configurable);	//false
+	console.log(typeof(descriptor.get));	//function
+	
+	
+	/********************* 【开始】运行结果 ********************
+	year:2005,edition:10
+	year:2007,edition:14
+	2007
+	false
+	undefined
+	undefined
+	false
+	function
+	********************* 【结束】运行结果 ********************/	
+</script>			
+		
+	</body>
+</html>

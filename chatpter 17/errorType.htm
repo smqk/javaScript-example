@@ -1,0 +1,294 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>错误类型</title>
+	</head>		
+	
+	<body>
+		良好的错误处理机制的好处：
+			1、当错误发生时可以让用户及时得到提醒，因而不会惊慌失措；
+			2、提高程序的健壮性；
+			2、当错误发生时开发人员可以快速的定位错误原因；
+			
+			
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * 错误类型： 执行代码期间可能会发生的错误有多种类型。每种错误都有对应的错误类型，而当错误发生时，就会抛出相应类型的错误对象。
+	 * ECMA-262定义了下列7种错误类型：
+	 * 		1、Error： 是错误的基类型，其他错误类型都继承该类型。Error 类型的错误很少见，如果有也是浏览器抛出的。
+	 *  	2、EvalError： 使用eval() 函数而发生异常时被抛出。
+	 *  	3、RangeError：在数值超过相应范围是就会被抛出。
+	 *  	4、ReferenceError： 在找不到对象的情况下，会发生 ReferenceEroor 。通常，在访问不存在的变量时，就会发生这种错误。
+	 *  	5、SyntaxError： 语法错误时会抛出此异常。
+	 *  	6、TypeError： 在变量中保存着意外的类型时，或者访问不存在的方法时，都会导致这种错误。错误的原因虽然多种多样，但归根结底还是由于
+	 *  			在执行特定于类型的操作时，变量的类型并不符合要求所致。
+	 *  	7、URIError： 在使用 encodeURI() 或 decodeURI(),而URI格式不正确，就会导致URIError错误。
+	 *  
+	 */
+	
+	//1、 数值超过范围时抛出 RangeError
+	var item1 = new Array(-10);						//抛出 RangeError: invalid array length
+	var item1 = new Array(Number.MAX_VALUE);		//抛出 RangeError: invalid array length
+	
+	
+	//2、找不到对象时会抛出 ReferenceError
+	var obj = x;		// 在x并未声明的情况下抛出 ReferenceError: x is not defined
+	
+	
+	//3、语法错误是抛出 SyntaxError
+	var sum = 1++2;		//SyntaxError: invalid increment operand
+	
+	
+	//4、在变量中保存着意外的类型时，或者访问不存在的方法时，都会导致 TypeError 错误
+	var obj = new 10();		//抛出 TypeError: 10 is not a constructor
+	if("name" in true){}	//抛出 TypeError: invalid 'in' operand true
+	Function.prototype.toString.call("name");	//抛出 TypeError: Function.prototype.toString called on incompatible object
+	
+	
+	//5、在使用 encodeURI() 或 decodeURI(),而URI格式不正确，就会导致URIError错误。这种错误也很少见，因为这两个函数的容错性非常高。
+</script>		
+
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * 异常的 try-catch 处理：
+	 * 
+	 * 	使用 try-catch 最适合处理那些我们无法控制的错误。假设你在使用一个大型的 JavaScript 库中的函数，该函数可能会有意无意地抛出一些错误。
+	 * 由于我们不能修改这个库的源代码，所以大可将对该函数的调用放在 try-catch 语句当中，万一有什么错误发生也好恰当的处理它们。
+	 * 	如果事前就知道自己的代码会某种情况下发生错误时，再使用 try-chtch 语句就不太合适了。例如，如果传递给函数的参数是字符串而非数值，就会
+	 * 造成函数出错，那么就应该先检查参数的类型，然后再决定如何去做。在这种情况下，不应该使用 try-catch 语句。
+	 */
+	
+	try{
+		//do something
+	}catch(error){
+		// error 是发生错误时catch块接受到包含错误信息的对象。这个对象包含的实际信息因为浏览器而异，但共同的是有一个保存着错误消息的message属性和保存错误类型的name属性。
+		console.log("错误消息："+error.message);
+		console.log("错误类型："+error.name);
+		
+		if(error instanceof TypeError){
+			// 处理类型错误
+		}else if(error instanceof ReferenceError){
+			// 处理引用错误
+		}else{
+			// 处理其他类型的错误
+		}
+
+	}
+</script>	
+		
+
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * try-catch-finally: try-catch 语句是可选的，如果try块中没有出现错误就不会执行 catch 块语句，但finally 子句中的代码无论如何都会执行（浏览器突然关掉或停电无法工作就另当别论啦）。
+	 */
+	function test1(){
+		try{
+			console.log("执行test1() try块语句。。。");
+			return 0;
+		}catch(error){
+			console.log("执行test1() catch块语句。。。");
+			return 1;
+		}finally{
+			console.log("执行test1() finally块语句。。。");
+			return 520;
+		}
+	}
+	var t1 = test1();
+	console.log("t1: "+t1);
+	
+	
+	
+	function test2(){
+		try{
+			console.log("执行test2() try块语句。。。");
+			//抛出错误让代码走 catch 块
+			throw new Error("测试try-catch-finally.");
+		}catch(error){
+			console.log("执行test2() catch块语句。。。");
+			return 1;
+		}finally{
+			console.log("执行test2() finally块语句。。。");
+			return 1314;
+		}
+	}
+	
+	var t2 = test2();
+	console.log("t2: "+t2);
+	
+	
+	function test3(){
+		try{
+			return 1314520;
+		}catch(error){
+			console.log("执行test3() catch块语句。。。");
+			return 1;
+		}finally{
+			console.log("执行test3() finally块语句。。。");
+		}
+	}
+	
+	var t3 = test3();
+	console.log("t3: "+t3);
+	
+	/********************* 【开始】运行结果 ********************
+	执行test1() try块语句。。。
+	执行test1() finally块语句。。。
+	t1: 520
+	
+	执行test2() try块语句。。。
+	执行test2() catch块语句。。。
+	执行test2() finally块语句。。。
+	t2: 1314
+	
+	执行test3() finally块语句。。。
+	t3: 1314520
+	********************* 【结束】运行结果 ********************/	
+	
+	/**
+	 * 总结：
+	 * 		代码中包含finally子句，那么无论try还是catch语句块中的return语句都将不会影响到finally子句的执行。因此在使用finally子句之前，
+	 * 一定要非常清楚的知道想让代码怎么样。
+	 */
+</script>			
+
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * 抛出错误
+	 * 
+	 * 语法格式：throw 错误值（错误值的类型没有要求）;
+	 * @example:
+	 * 		throw 12345;
+	 * 		throw "Hello Javascript!";
+	 * 		throw true;
+	 * 		throw {name:"Javascript"};
+	 * 		throw new Error("Something bad happened.");
+	 * 
+	 * 	在遇到throw操作符时，代码会立即停止执行。仅当有try-catch语句捕获到被抛出的值是，代码才会继续执行。
+	 */
+	
+	/**
+	 * 抛出自定义错误
+	 * 
+	 * 方式一： 使用错误类型抛出自定义错误消息的通用错误。
+	 * @example 
+	 * 		throw new Error("Something bad happened.");
+	 * 		throw new SyntaxError("I don't like your syntax style.");
+	 * 		throw new RangeError("Sorry,you just don't hava the range.");
+	 * 		...
+	 * 
+	 * 	以上例子中抛出都是通用错误，带有一条自定义错误消息。浏览器会像处理自己生成的错误一样，来处理代码抛出的错误。
+	 * 换句话说，浏览器会以常规方式报告错误，并且会显示这里的自定义错误消息。
+	 * 
+	 * 
+	 * 方式二：利用原型链通过继承Error来创建自定义错误类型，此时，需要为新创建的错误类型指定name 和 message 属性。
+	 * @example
+	 * 
+	 * 	function CustomerError(message){
+	 * 		this.name = "CustomerError";
+	 * 		this.message = message;
+	 * 	}
+	 * 	CustomerError.prototype = new Error();
+	 * 	throw new CustomerError("My error message");
+	 */
+	
+	/* 
+	 * @note
+	 * 		IE只有在抛出Error对象的时候才会显示自定义错误消息。对于其他类型，它都无一例外地显示“exception thrown and not caught”(抛出了异常，并且未被捕获)
+	 */
+	
+	/**
+	 * 抛出错误的时机
+	 * 		函数为什么会执行失败给出更多信息，抛出自定义错误是一种很方便的方式。虽说浏览器在执行失败会回给出相应的错误但都不是特别明显，
+	 * 而且不同的浏览器给出的错误消息都不尽相同。
+	 * 
+	 * 例如下面的precess函数：
+	 * 		如果执行函数是传给它一个字符串参数，那么sort()的调用就会失败。对此，不同的浏览器会给出不同的错误消息，但都不是特别明确。如下：
+	 * 	IE：对象不支持“sort”属性或方法。
+	 * 	Firefox： values.sort()不是函数。
+	 * 	Chrome: 对象名没有方法 ‘sort’.
+	 *  ...
+	 */
+	function process(values){
+		values.sort();
+		for(var i=0,len=values.length;i<len;i++){
+			console.log(values[i]+" , ");
+		}
+	}
+	
+	/**
+	 * 优化 process函数：在可能出现错误的地方做有效性检查，在出现错误时给出自定义的错误信息。
+	 * 
+	 * 好处：重写后的这个函数，如果values参数不是数组，就会抛出一个错误。错误消息中包含了函数的名称，以及为什么会发生错误的明确描述。
+	 * 如果是一个复杂的web应用程序发生了这个错误，那么查找问题的根源就容易多啦。良好的错误处理机制应该可以确保代码中只发生自己抛出的错误。
+	 */
+	function process1(values){
+		if(!(values instanceof Array)){
+			throw new Error("process1(): Argument must be an array.");
+		}
+		values.sort();
+		for(var i=0,len=values.length;i<len;i++){
+			console.log(values[i]+" , ");
+		}
+	}
+	
+	/**
+	 * 总结：抛出错误和捕获错误，我们认为值应该捕获那些确切知道该如何处理的错误。捕获错误的目的在于避免流量器以默认的方式处理它们；
+	 * 而抛出错误的目的在于提供错误发生具体原因的消息。
+	 */
+</script>	
+
+
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * 常见的错误类型：错误处理的核心，是首先要知道代码里会发生什么错误。由于 JavaScript 是松散类型的，而且也不会验证函数的参数，因此错误只会在代码运行期间出现。
+	 * 一般来说，需要关注三种错误：
+	 * 		1、类型转换错误
+	 * 		2、数据类型错误
+	 * 		3、通信错误
+	 * 以上的错误分别会在特定的模式下或者没有对值进行足够的检验的情况下发生。
+	 */
+	
+	
+	
+	//2、数据类型错误
+	//不安全的函数，任何非字符串值都会导致错误(数据类型错误)
+	function getQueryString(url){
+		var pos = url.indexOf("?");
+		if(pos > -1){
+			return url.substring(pos+1);
+		}
+		return "";
+	}
+	//添加类型检查语句来增强程序的健壮性
+	function getQueryString(url){
+		if(typeof url == "string"){
+			var pos = url.indexOf("?");
+			if(pos > -1){
+				return url.substring(pos+1);
+			}
+		}
+		return "";
+	}
+	
+	
+	//3、通信错误
+	// JavaScript与服务器之间的任何一次通信，都可能会产生错误。第一种通信错误与格式不正确的URI或发送的数据有关。最常见的问题是在将数据发送给服务器之前，没有使用encodeURIComponent()对数据进行编码。
+	//例如这个URL格式就是不正确的： http://www.abc.com?redir=http://www.otherdomaini.com?arg1=ttt&arg2=bbb ,"redir="后面的所有字符串调用encodeURIComponent()就可以解决这个问题；
+	function addQueryStringArg(url,name,value){
+		if(url.indexOf("?") == -1){
+			url += "?";
+		}else{
+			url += "&";
+		}
+		url += encodeURIComponent(name)+ "=" + encodeURIComponent(value);
+		return url;
+		
+	}
+	var url = "http://www.abc.com";
+	var newUrl = addQueryStringArg(url,"redir","http://www.otherdomaini.com?arg1=ttt&arg2=bbb");
+	console.log(newUrl);
+</script>	
+		
+	</body>
+</html>

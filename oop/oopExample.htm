@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>面向对象编程（OOP）</title>
+	</head>		
+	
+	<body>
+			
+			
+<script type="text/javascript" charset="utf-8">
+	/**
+	 * @Example:基于原型链的继承
+	 */
+	function Person(name,age){
+		this.name = name;
+		this.age = age;
+	}
+	Person.prototype.LEGS_NUM = 2;
+	Person.prototype.ARMS_NUM = 2;
+	Person.prototype.hi = function(){
+		console.log("Hi,my name is "+this.name+", I`m "+this.age+" years old now.");
+	};
+	Person.prototype.walk = function(){
+		console.log(this.name+" is walking ...");
+	};
+	
+	//学生类
+	function Student(name,age,className){
+		Person.call(this,name,age);
+		this.className = className;
+	}
+	//Object.create(param)： 创建一个（原型指向参数param的）空对象;
+	Student.prototype = Object.create(Person.prototype);
+	Student.prototype.constructor = Student; 
+	Student.prototype.hi = function(){
+		console.log("Hi,my name is "+this.name+", I`m "+this.age+" years old now, and from "+this.className);
+	}
+	Student.prototype.learn = function(subject){
+		console.log(this.name + " is learning "+subject+" at "+this.className);
+	}
+	
+	
+	//test run ...
+	var tom = new Student("Tom",27,"Class 3 Grade 2");
+	tom.hi();	//Hi,my name is Tom, I`m 27 years old now, and from Class 3 Grade 2
+	console.log("LEGS_NUM: "+tom.LEGS_NUM);	//LEGS_NUM: 2
+	tom.walk();	//Tom is walking ...
+	tom.learn("math");	//Tom is learning math at Class 3 Grade 2
+</script>		
+
+		
+	</body>
+</html>
